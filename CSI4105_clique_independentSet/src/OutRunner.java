@@ -4,9 +4,19 @@ import java.util.List;
 import java.util.Random;
 
 public class OutRunner {
-	// nodes number n
+
+	
 	public static void main(String[] args){
-		int n = 5;
+		int n = 5; // nodes number n
+		
+		
+		boolean[][] graph = graphGenerator(n);
+		System.out.println(graphToString(graph));
+		
+	}
+	
+	public static boolean[][] graphGenerator(int numNode){
+		int n = numNode;
 		boolean[][] graph = new boolean[n][n];
 		int maxEdges = n*(n-1)/2;
 
@@ -44,12 +54,20 @@ public class OutRunner {
 			pos.remove(0);
 		}
 		
-		
+		return graph;
+	}
+	
+	public static String graphToString(boolean[][] graph){
+		StringBuffer buffer = new StringBuffer();
+		int n = graph.length;
 		for(int i=0;i<n;i++){
 			for(int j=0;j<n;j++){
-				System.out.print(graph[i][j] + " ");
+				buffer.append( graph[i][j] );
+				buffer.append(" ");
 			}
-			System.out.println("");
+			buffer.append("\n");
 		}
+		
+		return buffer.toString();
 	}
 }
