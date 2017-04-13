@@ -49,13 +49,17 @@ public class ToolBox {
 	
 	public static List<LinkedList<Integer>> combination(int n){
 		List<LinkedList<Integer>> result = new LinkedList<LinkedList<Integer>>();
-		if(n == 1){
+		if(n == 0){
 			LinkedList<Integer> basecase = new LinkedList<Integer>();
-			basecase.add(1);
+			basecase.add(0);
 			result.add(basecase);
 			return result;
 		}else{
+			
 			result = combination(n-1);
+			
+			System.out.println("    generating combinations for: " + n);
+			
 			int size = result.size();
 			LinkedList<Integer> newCombination;
 			newCombination = new LinkedList<Integer>();
@@ -77,11 +81,11 @@ public class ToolBox {
 	         @Override
 	         public int compare(LinkedList<Integer> o1, LinkedList<Integer> o2) {
 	             
-	        	 if(o1.size() < o2.size()){
+	        	 if(o1.size() > o2.size()){
 	        		 return -1;
 	        	 } else if(o1.size() == o2.size()){
 	        		 return 0;
-	        	 } else if(o1.size() > o2.size()){
+	        	 } else if(o1.size() < o2.size()){
 	        		 return 1;
 	        	 }
 				return 0;
