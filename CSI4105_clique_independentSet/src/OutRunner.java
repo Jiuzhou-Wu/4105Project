@@ -1,5 +1,8 @@
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -7,11 +10,37 @@ public class OutRunner {
 
 	
 	public static void main(String[] args){
-		int n = 5; // nodes number n
+//		int n = 5; // nodes number n
+//		
+//		
+//		boolean[][] graph = graphGenerator(n);
+//		
+//		System.out.println(graphToString(graph));
+//		
+//		System.out.println(graphToString(ToolBox.tranAlg(graph)));
+//		
+//		System.out.println(ToolBox.getDegree(graph).toString());
 		
-		
-		boolean[][] graph = graphGenerator(n);
-		System.out.println(graphToString(graph));
+//		LinkedList<Integer> base = new LinkedList<Integer>();
+//		base.add(1);
+//		base.add(2);
+//		base.add(3);
+//		base.add(4);
+//		LinkedList<Integer> copy = new LinkedList<Integer>(base);
+//		System.out.println(copy.toString());
+//		
+//		base.add(5);
+//		
+//		System.out.println(copy.toString());
+//		System.out.println(base.toString());
+		List<LinkedList<Integer>> lists = ToolBox.combination(5);
+		ToolBox.sortLinkedList(lists);
+		for(int i = 0; i<lists.size(); i++){
+			for(int j = 0; j<lists.get(i).size(); j++){
+				System.out.print(lists.get(i).get(j));
+			}
+			System.out.print("\n");
+		}
 		
 	}
 	
@@ -23,7 +52,7 @@ public class OutRunner {
 		List<Integer> edges = new ArrayList<Integer>();
 		for(int i=0; i<maxEdges; i++){
 			edges.add(i);
-		}
+		} 
 		Collections.shuffle(edges, new Random());
 		int edgesNum = edges.get((int) (Math.random()*maxEdges));	
 		
