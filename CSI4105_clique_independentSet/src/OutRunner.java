@@ -18,9 +18,11 @@ public class OutRunner {
 	}
 	
 	public static void ioTester(){
+		// n means nodes, dPos means degree possibility
 		int n = 10;
+		double dPos = 0.5;
 		
-		boolean[][] graph = graphGenerator(n);
+		boolean[][] graph = graphGenerator(n, dPos);
 		
 		System.out.println(graphToString(graph));
 		
@@ -38,10 +40,10 @@ public class OutRunner {
 	}
 	
 	public static void naiveTester(){
-		int n = 10; // nodes number n
+		int n = 10;
+		double dPos = 0.5;
 		
-		
-		boolean[][] graph = graphGenerator(n);
+		boolean[][] graph = graphGenerator(n, dPos);
 		
 		
 //		
@@ -59,6 +61,21 @@ public class OutRunner {
 		System.out.println(combinations.get(hope).toString());
 		
 		System.out.println(graphToString(graph));
+	}
+	
+	public static boolean[][] graphGenerator(int numNode, double dPos){
+		int n = numNode;
+		boolean[][] graph = new boolean[n][n];
+		for(int i=0;i<numNode;i++){
+			for(int j=i+1; j<n; j++){
+				double random = Math.random();
+				if(random <= dPos){
+					graph[i][j] = true;
+					graph[j][i] = true;
+				}
+			}
+		}
+		return graph;
 	}
 	
 	public static boolean[][] graphGenerator(int numNode){
