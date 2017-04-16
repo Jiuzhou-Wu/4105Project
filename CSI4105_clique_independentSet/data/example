@@ -1,0 +1,23 @@
+the naive brute force answer: [0, 5, 6, 7, 14, 16]
+      0     1     2     3     4     5     6     7     8     9     10    11    12    13    14    15    16    17    18    19    
+0     false true  true  true  false false false false true  false true  true  true  true  false false false false true  true  
+1     true  false true  false false true  false false false false false false true  false false true  true  false false false 
+2     true  true  false true  false false true  false true  false true  true  false true  true  false false false false false 
+3     true  false true  false true  true  false false false false false true  false true  false false true  true  false true  
+4     false false false true  false false true  true  true  true  false true  true  false true  true  true  true  true  true  
+5     false true  false true  false false false false false false false true  false false false false false false true  false 
+6     false false true  false true  false false false true  true  true  true  true  false false true  false false false false 
+7     false false false false true  false false false true  false false true  false true  false true  false true  true  true  
+8     true  false true  false true  false true  true  false false false false true  false true  false true  false false true  
+9     false false false false true  false true  false false false false true  false true  true  true  false false false false 
+10    true  false true  false false false true  false false false false false false false false false false false false false 
+11    true  false true  true  true  true  true  true  false true  false false false false true  true  true  false false false 
+12    true  true  false false true  false true  false true  false false false false true  true  true  true  true  true  true  
+13    true  false true  true  false false false true  false true  false false true  false false false false false true  true  
+14    false false true  false true  false false false true  true  false true  true  false false false false false false false 
+15    false true  false false true  false true  true  false true  false true  true  false false false false false false true  
+16    false true  false true  true  false false false true  false false true  true  false false false false true  false true  
+17    false false false true  true  false false true  false false false false true  false false false true  false false true  
+18    true  false false false true  true  false true  false false false false true  true  false false false false false false 
+19    true  false false true  true  false false true  true  false false false true  true  false true  true  true  false false 
+

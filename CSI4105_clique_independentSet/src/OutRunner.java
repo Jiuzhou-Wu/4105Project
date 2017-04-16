@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +11,34 @@ public class OutRunner {
 
 	
 	public static void main(String[] args){
-		int n = 16; // nodes number n
+		
+
+		ioTester();
+		
+	}
+	
+	public static void ioTester(){
+		int n = 10;
+		
+		boolean[][] graph = graphGenerator(n);
+		
+		System.out.println(graphToString(graph));
+		
+		
+		try {
+			ToolBox.writeGraph(graph);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		graph = ToolBox.readGraph("data/matrix");
+		System.out.println(graphToString(graph));
+		
+	}
+	
+	public static void naiveTester(){
+		int n = 10; // nodes number n
 		
 		
 		boolean[][] graph = graphGenerator(n);
@@ -27,30 +55,10 @@ public class OutRunner {
 		ToolBox.sortLinkedList(combinations);
 		int hope = naiveBruteForce(graph, combinations);
 		
-//		for(int i = 0; i<combinations.size(); i++){
-//			System.out.println(combinations.get(i).toString());
-//		}
-		
 		System.out.print("the naive brute force answer: ");
 		System.out.println(combinations.get(hope).toString());
 		
 		System.out.println(graphToString(graph));
-//		LinkedList<Integer> base = new LinkedList<Integer>();
-//		base.add(1);
-//		base.add(2);
-//		base.add(3);
-//		base.add(4);
-//		LinkedList<Integer> copy = new LinkedList<Integer>(base);
-//		System.out.println(copy.toString());
-//		
-//		base.add(5);
-//		
-//		System.out.println(copy.toString());
-//		System.out.println(base.toString());
-//		List<LinkedList<Integer>> lists = ToolBox.combination(5);
-//		ToolBox.sortLinkedList(lists);
-		
-		
 	}
 	
 	public static boolean[][] graphGenerator(int numNode){
