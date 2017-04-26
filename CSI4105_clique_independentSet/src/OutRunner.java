@@ -12,30 +12,62 @@ public class OutRunner {
 	
 	public static void main(String[] args){
 		
-
-		ioTester();
+		MIStest();
+		
+	}
+	
+	public static void MIStest(){
+		
+		boolean[][] graph = graphGenerator(100, 0.7);
+		boolean[][] graph1 = {{false, false, false}, {false, false, true}, {false, true, false}};
+		System.out.println(OutRunner.graphToString(graph));
+		
+		ArrayList<Integer> nodes = new ArrayList<Integer>();
+		
+		for(int i = 0; i < graph.length; i++){
+			nodes.add(i);
+		}
+		
+		ArrayList<Integer> solution = IndependentSet.MIS(graph, nodes, 0);
+		
+//		System.out.println(ToolBox.removeAdjacentNode(graph, nodes, nodes.get(0)).toString());
+		System.out.println(solution.toString());
 		
 	}
 	
 	public static void ioTester(){
+				
 		// n means nodes, dPos means degree possibility
 		int n = 10;
 		double dPos = 0.5;
 		
 		boolean[][] graph = graphGenerator(n, dPos);
 		
+		
 		System.out.println(graphToString(graph));
 		
-		
-		try {
-			ToolBox.writeGraph(graph);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		ArrayList<Integer> nodes = new ArrayList<Integer>();
+		for(int i = 0; i < graph.length; i++){
+			nodes.add(i);
 		}
 		
-		graph = ToolBox.readGraph("data/matrix");
-		System.out.println(graphToString(graph));
+		int node = 0;
+		
+		ToolBox.removeAdjacentNode(graph, nodes, node);
+		
+		for(int i = 0; i < nodes.size(); i++){
+			System.out.print(nodes.get(i) + " ");
+		}
+		
+//		try {
+//			ToolBox.writeGraph(graph);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		graph = ToolBox.readGraph("data/matrix");
+//		System.out.println(graphToString(graph));
 		
 	}
 	

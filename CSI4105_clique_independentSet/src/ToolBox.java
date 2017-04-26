@@ -177,4 +177,38 @@ public class ToolBox {
 		}
 		return !edges;
 	}
+	
+	public static ArrayList<Integer> removeAdjacentNode(boolean[][] graph, ArrayList<Integer> nodes, int node){
+		ArrayList<Integer> removed = new ArrayList<Integer>();
+		for(Integer i : nodes){
+			if(graph[node][i] == false){
+				removed.add(i);
+			}
+		}
+		
+		return removed;
+	}
+	
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
