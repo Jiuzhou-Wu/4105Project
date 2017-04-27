@@ -105,8 +105,19 @@ public class OutRunner {
 	
 public static void cliqueTest(){
 		
-		boolean[][] graph = graphGenerator(10, 0.1);
-		
+		boolean[][] graph = graphGenerator(10, 0.5);
+//		boolean[][] graph = {
+//				{false, false, false, false, false, false, false, false, false, false },  //0
+//				{false, false, false, false, false, false, false, false, false, false },  //1
+//				{false, false, false, false, false, true,  false, false, false, false },  //2
+//				{false, false, false, false, false, true,  false, false, false, false },  //3
+//				{false, false, false, false, false, true,  false, false, false, false },  //4
+//				{false, false, true,  true,  true,  false, true,  true,  false, false },  //5
+//				{false, false, false, false, false, true,  false, false, false, true  },  //6
+//				{false, false, false, false, false, true,  false, false, false, false },  //7
+//				{false, false, false, false, false, false, false, false, false, false },  //8
+//				{false, false, false, false, false, false, true,  false, false, false }   //9
+//		};
 		System.out.println("System generating combinations...");
 		List<LinkedList<Integer>> combinations = ToolBox.combination(graph.length-1);
 		
@@ -124,6 +135,9 @@ public static void cliqueTest(){
 		for(int i = 0; i < graph.length; i++){
 			nodes.add(i);
 		}
+		
+		ToolBox.sortVertexsList(graph, nodes);
+		
 		System.out.println(Clique.MCG(graph, nodes, 0));
 		
 	}

@@ -100,6 +100,21 @@ public class ToolBox {
 	     });
 	}
 	
+	public static void sortVertexsList(boolean[][] graph, ArrayList<Integer> nodes){
+		Collections.sort(nodes, new Comparator<Integer>() {
+	         @Override
+	         public int compare(Integer o1, Integer o2) {
+	        	 if(ToolBox.adjacentNodes(graph, nodes, o1).size()+1 > ToolBox.adjacentNodes(graph, nodes, o2).size()+1){
+	        		 return -1;
+	        	 } else if(ToolBox.adjacentNodes(graph, nodes, o1).size()+1 == ToolBox.adjacentNodes(graph, nodes, o2).size()+1){
+	        		 return 0;
+	        	 } else if(ToolBox.adjacentNodes(graph, nodes, o1).size()+1 < ToolBox.adjacentNodes(graph, nodes, o2).size()+1){
+	        		 return 1;
+	        	 }
+				return 0;
+	         }
+	     });
+	}
 	
 	/**
 	 * 
