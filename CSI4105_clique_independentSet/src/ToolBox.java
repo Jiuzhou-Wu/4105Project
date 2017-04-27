@@ -178,6 +178,21 @@ public class ToolBox {
 		return !edges;
 	}
 	
+	public static boolean cliqueSolutionCheck(List<Integer> solution, boolean[][] graph){
+		// assumen there are edges, meaning that, the graph is assumed as complete graph. 
+		boolean edges = true; 
+		List<Integer> combination = solution;
+		for(int i = 0; i < combination.size() && edges; i++){
+			for(int j = i+1; j < combination.size() && edges; j++){
+				edges = graph[combination.get(i)][combination.get(j)];
+			}
+		}
+		
+		
+		return edges;
+	}
+	
+	
 	public static ArrayList<Integer> removeAdjacentNode(boolean[][] graph, ArrayList<Integer> nodes, int node){
 		ArrayList<Integer> removed = new ArrayList<Integer>();
 		for(Integer i : nodes){
@@ -189,7 +204,19 @@ public class ToolBox {
 		return removed;
 	}
 	
-	
+	public static ArrayList<Integer> adjacentNodes(boolean[][] graph, ArrayList<Integer> nodes, int node){
+		
+		ArrayList<Integer> adjacents = new ArrayList<Integer>();
+		for(Integer i : nodes){
+			if(graph[node][i] == true){
+				adjacents.add(i);
+			}
+		}
+		
+		return adjacents;
+		
+		
+	}
 	
 }
 

@@ -12,13 +12,15 @@ public class OutRunner {
 	
 	public static void main(String[] args){
 		
-		MIStest();
-		
+//		naiveTester();
+		cliqueTest();
 	}
+	
+	
 	
 	public static void MIStest(){
 		
-		boolean[][] graph = graphGenerator(100, 0.7);
+		boolean[][] graph = graphGenerator(25, 0.1);
 		boolean[][] graph1 = {{false, false, false}, {false, false, true}, {false, true, false}};
 		System.out.println(OutRunner.graphToString(graph));
 		
@@ -88,11 +90,42 @@ public class OutRunner {
 		System.out.println("System sorting combinations...");
 		ToolBox.sortLinkedList(combinations);
 		int hope = naiveBruteForce(graph, combinations);
+		ArrayList<Integer> nodes = new ArrayList<Integer>();
+		System.out.print("the naive brute force answer: ");
+		System.out.println(combinations.get(hope).toString());
+		
+		System.out.println(graphToString(graph));
+		for(int i = 0; i < graph.length; i++){
+			nodes.add(i);
+		}
+		
+		ArrayList<Integer> solution = IndependentSet.MIS(graph, nodes, 0);
+		System.out.println(solution);
+	}
+	
+public static void cliqueTest(){
+		
+		boolean[][] graph = graphGenerator(10, 0.1);
+		
+		System.out.println("System generating combinations...");
+		List<LinkedList<Integer>> combinations = ToolBox.combination(graph.length-1);
+		
+		System.out.println("System sorting combinations...");
+		ToolBox.sortLinkedList(combinations);
+		int hope = naiveBruteForceCliqueVersion(graph, combinations);
+		
 		
 		System.out.print("the naive brute force answer: ");
 		System.out.println(combinations.get(hope).toString());
 		
 		System.out.println(graphToString(graph));
+		
+		ArrayList<Integer> nodes = new ArrayList<Integer>();
+		for(int i = 0; i < graph.length; i++){
+			nodes.add(i);
+		}
+		System.out.println(Clique.MCG(graph, nodes, 0));
+		
 	}
 	
 	public static boolean[][] graphGenerator(int numNode, double dPos){
@@ -185,6 +218,18 @@ public class OutRunner {
 		}
 		
 		return buffer.toString();
+	}
+	
+	public static int naiveBruteForceCliqueVersion(boolean[][] graph, List<LinkedList<Integer>> combinations){
+		
+		for(int combinationCounter = 0; combinationCounter < combinations.size(); combinationCounter++){
+			System.out.println("checked/totle combinations: " + combinationCounter + "/" + combinations.size());
+			if(ToolBox.cliqueSolutionCheck(combinations.get(combinationCounter), graph)){
+				return combinationCounter;
+			}
+		}
+		
+		return 0;
 	}
 	
 	public static int naiveBruteForce(boolean[][] graph, List<LinkedList<Integer>> combinations){

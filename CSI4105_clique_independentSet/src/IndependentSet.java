@@ -1,7 +1,4 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
 
 public class IndependentSet {
 	public static ArrayList<Integer> MIS(boolean[][] graph, ArrayList<Integer> nodes, int considering){
