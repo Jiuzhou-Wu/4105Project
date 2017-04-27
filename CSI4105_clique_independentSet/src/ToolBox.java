@@ -17,6 +17,7 @@ public class ToolBox {
 		
 		for(int i = 0; i<graph.length; i++){
 			for(int j = 0; j<graph.length; j++){
+				if( i != j)
 				compelement[i][j] = !graph[i][j];
 			}
 		}
@@ -64,7 +65,7 @@ public class ToolBox {
 			
 			result = combination(n-1);
 			
-			System.out.println("    generating combinations for: " + n);
+//			System.out.println("    generating combinations for: " + n);
 			
 			int size = result.size();
 			LinkedList<Integer> newCombination;
@@ -72,7 +73,7 @@ public class ToolBox {
 			newCombination.add(n);
 			result.add(newCombination);
 			for(int i = 0; i < size; i++){
-				System.out.println("    prograss: " + i + "/" + (size+1));
+//				System.out.println("    prograss: " + i + "/" + (size+1));
 				newCombination = new LinkedList<Integer>(result.get(i));
 				newCombination.add(n);
 				result.add(newCombination);
@@ -209,6 +210,7 @@ public class ToolBox {
 	
 	
 	public static ArrayList<Integer> removeAdjacentNode(boolean[][] graph, ArrayList<Integer> nodes, int node){
+//		System.out.println("removing adjavent...");
 		ArrayList<Integer> removed = new ArrayList<Integer>();
 		for(Integer i : nodes){
 			if(graph[node][i] == false){

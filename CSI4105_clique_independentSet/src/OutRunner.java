@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.Collator;
 import java.util.ArrayList;
@@ -10,10 +13,93 @@ import java.util.Random;
 public class OutRunner {
 
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws IOException{
+		int sizeOfVertexes = 15;
+		for(double density = 0.1; density < 1; density = density+0.2){
+			
+			System.out.println(density);
+			File file = new File("data/matrix");
+			file.createNewFile();
+			BufferedWriter fw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), true));
+			
+			//the three alg share one graph
+			boolean[][] graph = graphGenerator(sizeOfVertexes, density);
+//			System.out.println(graphToString(graph));
+			//save the graph to file
+			fw.write("Graph vertexes: " + sizeOfVertexes);
+			fw.write("; Graph density: " + density + "\n");
+			
+			fw.write(graphToString(graph));
+			long startTime;
+			long endTime;
+			
+			// run three alg
+			/**
+			 * begin brute force search
+			 */
+			startTime = System.nanoTime();
+			
+			List<LinkedList<Integer>> combinations = ToolBox.combination(graph.length-1);
+			
+//			System.out.println("System sorting combinations...");
+			ToolBox.sortLinkedList(combinations);
+			int hope = naiveBruteForce(graph, combinations);
+			LinkedList<Integer> nodes = new LinkedList<Integer>();
+//			System.out.print("the naive brute force answer: ");
+			nodes = combinations.get(hope);
+			//save the result to file
+			endTime = System.nanoTime();
+			fw.write(nodes.toString());
+			fw.write("The brute force alg was done in: " + (endTime - startTime) + "\n");
+			
+			/**
+			 * end brute force search 
+			 */
+			
+			/**
+			 * begin MIS alg
+			 */
+			startTime = System.nanoTime();
+			
+			ArrayList<Integer> vertexes = new ArrayList<Integer>();
+			
+			for(int i = 0; i < graph.length; i++){
+				vertexes.add(i);
+			}
+			
+			ArrayList<Integer> solution = IndependentSet.MIS(graph, vertexes, 0);
+			
+			endTime = System.nanoTime();
+			fw.write(solution.toString());
+			fw.write("The miximal independent set alg was done in: " + (endTime - startTime) + "\n");
+			
+			/**
+			 * end MIS alg
+			 */
+			
+			/**
+			 * begin MCG alg
+			 */
+			
+			startTime = System.nanoTime();
+			ToolBox.sortVertexsList(ToolBox.tranAlg(graph), vertexes);
+			solution = Clique.MCG(ToolBox.tranAlg(graph), vertexes, 0);
+			endTime = System.nanoTime();
+			fw.write(solution.toString());
+			fw.write("The miximal clique alg was done in: " + (endTime - startTime) + "\n\n\n");
+			fw.close();
+		}
 		
-//		naiveTester();
-		cliqueTest();
+		
+//		boolean found = false;
+		
+
+//		while(!found){
+//			found = naiveTester();
+//		}
+//		cliqueTest();
+		
+		
 	}
 	
 	
@@ -73,12 +159,23 @@ public class OutRunner {
 		
 	}
 	
-	public static void naiveTester(){
+	public static boolean naiveTester(){
 		int n = 10;
 		double dPos = 0.5;
 		
-		boolean[][] graph = graphGenerator(n, dPos);
-		
+//		boolean[][] graph = graphGenerator(n, dPos);
+		boolean[][] graph = {
+				{     false, false, false, false, false, true , true , false, true , true , },
+				{     false, false, false, true , false, false, true , false, true , true , },
+				{     false, false, false, false, true , false, true , true , false, true , },
+				{     false, true , false, false, false, false, false, false, true , false, },
+				{     false, false, true , false, false, true , false, false, false, true , },
+				{     true , false, false, false, true , false, false, true , false, true , },
+				{     true , true , true , false, false, false, false, true , true , false, },
+				{     false, false, true , false, false, true , true , false, true , false, },
+				{     true , true , false, true , false, false, true , true , false, false, },
+				{     true , true , true , false, true , true , false, false, false, false, },
+		};
 		
 //		
 //		System.out.println(graphToString(ToolBox.tranAlg(graph)));
@@ -90,44 +187,53 @@ public class OutRunner {
 		System.out.println("System sorting combinations...");
 		ToolBox.sortLinkedList(combinations);
 		int hope = naiveBruteForce(graph, combinations);
-		ArrayList<Integer> nodes = new ArrayList<Integer>();
+		
 		System.out.print("the naive brute force answer: ");
 		System.out.println(combinations.get(hope).toString());
 		
 		System.out.println(graphToString(graph));
+		
+		ArrayList<Integer> nodes = new ArrayList<Integer>();
 		for(int i = 0; i < graph.length; i++){
 			nodes.add(i);
 		}
 		
 		ArrayList<Integer> solution = IndependentSet.MIS(graph, nodes, 0);
 		System.out.println(solution);
+		
+		return (combinations.get(hope).size() != solution.size());
 	}
 	
-public static void cliqueTest(){
+public static boolean cliqueTest(){
 		
-		boolean[][] graph = graphGenerator(10, 0.5);
+		boolean[][] graph = graphGenerator(12, 0.5);
 //		boolean[][] graph = {
-//				{false, false, false, false, false, false, false, false, false, false },  //0
-//				{false, false, false, false, false, false, false, false, false, false },  //1
-//				{false, false, false, false, false, true,  false, false, false, false },  //2
-//				{false, false, false, false, false, true,  false, false, false, false },  //3
-//				{false, false, false, false, false, true,  false, false, false, false },  //4
-//				{false, false, true,  true,  true,  false, true,  true,  false, false },  //5
-//				{false, false, false, false, false, true,  false, false, false, true  },  //6
-//				{false, false, false, false, false, true,  false, false, false, false },  //7
-//				{false, false, false, false, false, false, false, false, false, false },  //8
-//				{false, false, false, false, false, false, true,  false, false, false }   //9
+//				{     false, true , true , true , false, false, true , true , true , true , true , true , },
+//				{     true , false, false, false, false, true , true , false, false, true , false, true , },
+//				{     true , false, false, false, true , true , true , true , false, true , false, false, },
+//				{     true , false, false, false, false, true , false, true , false, false, false, false, },
+//				{     false, false, true , false, false, true , true , true , false, false, false, false, },
+//				{     false, true , true , true , true , false, true , true , false, false, false, false, },
+//				{     true , true , true , false, true , true , false, false, false, true , false, false, },
+//				{     true , false, true , true , true , true , false, false, false, false, false, true , },
+//				{     true , false, false, false, false, false, false, false, false, false, true , false, },
+//				{     true , true , true , false, false, false, true , false, false, false, false, true , },
+//				{    true , false, false, false, false, false, false, false, true , false, false, false, },
+//				{    true , true , false, false, false, false, false, true , false, true , false, false, }
 //		};
 		System.out.println("System generating combinations...");
 		List<LinkedList<Integer>> combinations = ToolBox.combination(graph.length-1);
 		
 		System.out.println("System sorting combinations...");
 		ToolBox.sortLinkedList(combinations);
-		int hope = naiveBruteForceCliqueVersion(graph, combinations);
-		
-		
+		int hope1 = naiveBruteForceCliqueVersion(ToolBox.tranAlg(graph), combinations);
 		System.out.print("the naive brute force answer: ");
-		System.out.println(combinations.get(hope).toString());
+		System.out.println(combinations.get(hope1).toString());
+		
+		
+		int hope2 = naiveBruteForce(graph, combinations);
+		System.out.print("the naive brute force answer: ");
+		System.out.println(combinations.get(hope2).toString());
 		
 		System.out.println(graphToString(graph));
 		
@@ -136,9 +242,11 @@ public static void cliqueTest(){
 			nodes.add(i);
 		}
 		
-		ToolBox.sortVertexsList(graph, nodes);
+		ToolBox.sortVertexsList(ToolBox.tranAlg(graph), nodes);
 		
-		System.out.println(Clique.MCG(graph, nodes, 0));
+		ArrayList<Integer> solution = Clique.MCG(ToolBox.tranAlg(graph), nodes, 0);
+		System.out.println(solution.toString());
+		return (combinations.get(hope1).size() != solution.size() || hope1 != hope2);
 		
 	}
 	
@@ -202,33 +310,35 @@ public static void cliqueTest(){
 	public static String graphToString(boolean[][] graph){
 		StringBuffer buffer = new StringBuffer();
 		int n = graph.length;
-		buffer.append("      ");
+		buffer.append("       ");
 		for(int size = 0; size<graph.length; size++){
 //			System.out.println(graph.length);
 			buffer.append(size);
 			for(int digit = 0; digit < 5-String.valueOf(size).length(); digit++){
 				buffer.append(" ");
 			}
-			buffer.append(" ");
+			buffer.append("  ");
 		}
 		buffer.append("\n");
 //		System.out.println(buffer);
 		for(int i=0;i<n;i++){
 			buffer.append(i);
+			buffer.append("{");
 			for(int digit = 0; digit < 5-String.valueOf(i).length(); digit++){
 				buffer.append(" ");
 			}
 			buffer.append(" ");
 			for(int j=0;j<n;j++){
 				buffer.append( graph[i][j] );
+				
 				if(graph[i][j]){
 					
 					buffer.append( " " );
 				}
 				
-				buffer.append(" ");
+				buffer.append(", ");
 			}
-			buffer.append("\n");
+			buffer.append("},\n");
 		}
 		
 		return buffer.toString();
@@ -237,7 +347,7 @@ public static void cliqueTest(){
 	public static int naiveBruteForceCliqueVersion(boolean[][] graph, List<LinkedList<Integer>> combinations){
 		
 		for(int combinationCounter = 0; combinationCounter < combinations.size(); combinationCounter++){
-			System.out.println("checked/totle combinations: " + combinationCounter + "/" + combinations.size());
+//			System.out.println("checked/totle combinations: " + combinationCounter + "/" + combinations.size());
 			if(ToolBox.cliqueSolutionCheck(combinations.get(combinationCounter), graph)){
 				return combinationCounter;
 			}
@@ -249,7 +359,7 @@ public static void cliqueTest(){
 	public static int naiveBruteForce(boolean[][] graph, List<LinkedList<Integer>> combinations){
 		
 		for(int combinationCounter = 0; combinationCounter < combinations.size(); combinationCounter++){
-			System.out.println("checked/totle combinations: " + combinationCounter + "/" + combinations.size());
+//			System.out.println("checked/totle combinations: " + combinationCounter + "/" + combinations.size());
 			boolean edges = false; //assume there is no edges
 			LinkedList<Integer> combination = combinations.get(combinationCounter);
 			//double loop
